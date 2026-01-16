@@ -1,4 +1,4 @@
-from const import screen_height, screen_width
+from const import screen_height, screen_width, szerokosc_miejsca_parkingowego, dlugosc_miejsca_parkingowego, szerokosc_alei 
 import pygame
 
 class Map:
@@ -8,10 +8,10 @@ class Map:
         self.cel = None
         self.przeszkody = []
 
-        self.szerokosc_miejsca_parkingowego = 300
-        self.dlugosc_miejsca_parkingowego = 500
+        self.szerokosc_miejsca_parkingowego = szerokosc_miejsca_parkingowego
+        self.dlugosc_miejsca_parkingowego = dlugosc_miejsca_parkingowego
 
-        self.szerokosc_alei = 450
+        self.szerokosc_alei = szerokosc_alei  
 
         self.typ_parkingu = typ_parkingu
 
