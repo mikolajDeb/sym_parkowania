@@ -10,10 +10,11 @@ def idle(a , v, x, y, theta):
     y = y + v * math.sin(math.radians(theta))
     return v ,x ,y
 
-def const_forward(a, x, y, v, theta):
+def const_forward(a, v, x, y, theta):
+    
     x = x + v * math.cos(math.radians(theta))
     y = y + v * math.sin(math.radians(theta))
-    return  x, y
+    return  v, x, y
         
 
 def const_backward(a, v, x, y, theta):

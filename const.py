@@ -20,4 +20,8 @@ szerokosc_alei = 450
 #Paramettry dynamiczne pojazdu
 
 sila_napedowa = 2000  #N
-sila_oporu = 1000  #N   
+sila_oporu = 1500  #N   
+
+#Parametry sensoryki
+
+lidar_range = 500 #px
