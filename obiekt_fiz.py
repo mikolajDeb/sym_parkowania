@@ -43,6 +43,15 @@ class Pojazd:
 
         self.State_log = []
         self.current_state = ""
+
+        #Vectory
+
+        self.pos = pygame.math.Vector2(self.x, self.y)
+        self.a = pygame.math.Vector2(0,0)
+        self.v = pygame.math.Vector2(0,0)
+        self.forward_vector = pygame.math.Vector2(1,0)
+        self.right_vector = pygame.math.Vector2(0,1)
+
         pass
     def step(self):
 
@@ -70,22 +79,55 @@ class Pojazd:
         pass
     def reset(self):
         pass
-    def render(self):
-        if self.can_move:
-            pygame.draw.rect(pygame.display.get_surface(), self.color_movable, self.render_instancja)
-        else:
-            pygame.draw.rect(pygame.display.get_surface(), self.color_immovable, self.render_instancja)
+    
+    def define_vehicle(self):
+        
+        if self.can_move == True:
+            
+            forward = self.forward_vector.rotate(self.theta)
+            right = self.right_vector.rotate(self.theta)
+            
+            centre_back_axel_pos = self.pos
+            
+            
+            mid_front_pos = centre_back_axel_pos + (self.L + 50) * forward
+
+            mid_back_pos = centre_back_axel_pos - 50 * forward
+
+            fr = mid_front_pos + right * (veh_width / 2)
+            fl = mid_front_pos - right * (veh_width / 2)
+
+            br = mid_back_pos + right * (veh_width / 2)
+            bl = mid_back_pos - right * (veh_width / 2)
+            
+            return{
+                "os tylna": centre_back_axel_pos,
+                "sr przodu": mid_front_pos,
+                "sr tylu": mid_back_pos,
+                "rogi": [fl, fr, br, bl]
+            }
+        elif self.can_move == False:
+            car_color = "red"
+            instance = pygame.Rect(self.x - 50 , self.y - (veh_width/2), self.veh_lenght, self.veh_width)
+            pass
         pass
 
-    def get_x(self):
-        return self.x
+    def render(self):
+        car = self.define_vehicle()
+        if self.can_move == True:
+            pygame.draw.polygon(pygame.display.get_surface(), self.color_movable, car["rogi"])
+
+        else: 
+            pygame.draw.rect(pygame.display.get_surface(), self.color_immovable, self.render_instancja)
+    #def get_x(self):
+        #return self.x
+
+    #def get_y(self):
+        #return self.y
     
-    def get_y(self):
-        return self.y
+    #def get_theta(self):    
+        #return self.theta
     
-    def get_theta(self):    
-        return self.theta
-    
-    def get_velocity(self):
-        return self.v
+    #def get_velocity(self):
+        #return self.v
     

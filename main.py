@@ -19,8 +19,9 @@ def main():
     
     Clock = pygame.time.Clock()
     dt = 0
-    start_y = (screen_height/2) - 125
-    Poj = Pojazd(dt, 0, start_y , 0, 0, True)
+    start_x = 50
+    start_y = (screen_height/2)
+    Poj = Pojazd(dt, start_x, start_y , 0, 0, True)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
