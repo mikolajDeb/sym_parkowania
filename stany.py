@@ -53,28 +53,6 @@ def const_vel(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.V
         "pos": pos
     }
 
-#niepotrzebne funkcja const_vel() załatwia ruch od tyłu
-#def const_backward(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.Vector2, theta):
-    veh_acc = a
-    const_acc = (sila_napedowa - sila_oporu) / masa_pojazdu
-
-    if veh_acc.length() > 0:
-        dir = veh_acc.normalize()
-        veh_acc -= dir * (0.2 * const_acc)
-        if veh_acc.length() < 0.5:
-            veh_acc = pygame.math.Vector2(0,0)
-    else:
-        veh_acc = pygame.math.Vector2(0,0)
-
-    v += veh_acc
-    pos.x = pos.x - v.x
-    pos.y = pos.y - v.y   
-    return {
-        "a": a,
-        "v": v,
-        "pos": pos
-    }
-
 def steering(v: pygame.math.Vector, direction: pygame.math.Vector2, dir: int):
     #kierunek -1 lewo, 0 prosto, 1 prawo
     rot_speed = 5
@@ -105,7 +83,7 @@ def steering(v: pygame.math.Vector, direction: pygame.math.Vector2, dir: int):
     }
 
 
-def accelerate(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.Vector2, direction: pygame.math.Vector2):
+def accelerate(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.Vector2, direction: pygame.math.Vector2, reverse: bool = False):
     #Przeliczanie fizyki
 
     current_v = v.length()
@@ -122,7 +100,10 @@ def accelerate(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.
     else:
         dir = pygame.math.Vector2(0,0)
     
-    veh_acc = dir * acc_val
+    if reverse == True: 
+        veh_acc = -dir * acc_val
+    else:
+        veh_acc = dir * acc_val
 
     #aktualizacja fizyki
 
