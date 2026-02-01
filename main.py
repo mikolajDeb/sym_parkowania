@@ -21,7 +21,11 @@ def main():
     dt = 0
     start_x = 50
     start_y = (screen_height/2)
-    Poj = Pojazd(dt, start_x, start_y , 0, 0, True)
+    Poj = Pojazd(start_x, start_y , 0, 0, True)
+
+    Mapa = Map(typ)
+    Mapa.generuj_mape()
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -31,8 +35,8 @@ def main():
 
         screen.fill("black")
 
-        Mapa = Map(typ)
-        Mapa.generuj_mape()
+        #Mapa = Map(typ)
+        #Mapa.generuj_mape()
         Mapa.rysuj_mape()   
 
         
