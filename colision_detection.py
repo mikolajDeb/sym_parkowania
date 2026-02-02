@@ -1,31 +1,71 @@
-import pygame, math
+import pygame
 
 def colision_detection(moving_car, static_upper_car: list, static_lower_car: list):
-    mobile_car = moving_car.define_vehicle()
+    
 
-    mobile_corners = mobile_car["rogi"]
+    all_parked_veh = static_upper_car + static_lower_car
 
-    mobile_A = []   #kolejnosc scian: przod prawa tyl lewa
-    mobile_B = []
-    mobile_C = []
+    for parked_car in all_parked_veh:
+        colision = col_between_2(moving_car, parked_car)
+        if colision == True:
+            return True
+    return False
+    
 
-    for i in range(len(mobile_corners)):
-        p1 = mobile_corners[i]
-        p2 = mobile_corners[(i + 1) % len(mobile_corners)] #ciekawy trick z modulo aby zamknac ksztalt 3+1 = 4 % 4 = 0 wiec wraca do wierzcholka listy cool
-        
-        A, B, C = get_line_eqation(p1, p2)
+def SAT_projection(axis, corners):
+    min_value = float('inf')
+    max_value = float('-inf')
 
-        mobile_A.append(A)
-        mobile_B.append(B)
-        mobile_C.append(C)
-    pass
+    for i in range(0    , len(corners)):
+        proj = axis.dot(corners[i])
+        if proj < min_value:
+            min_value = proj
+        if proj > max_value:
+            max_value = proj
 
-def get_line_eqation(p_1, p_2):
+    return min_value, max_value
+
+def get_axes(car):
+    axes = []
+    
+    corners = car["rogi"]
+
+    lenghwise_axis = corners[1] - corners[2]
+    widthwise_axis = corners[1] - corners[0]
+
+    SAT_axis_length = lenghwise_axis.normalize()
+    SAT_axis_width = widthwise_axis.normalize()
+
+    axes.append(SAT_axis_length)
+    axes.append(SAT_axis_width)
+    
+    return axes
+
+def col_between_2(car_a, car_b):
+
+    SAT_axes_A = get_axes(car_a)
+    SAT_axes_B = get_axes(car_b)
+
+    SAT_axes = SAT_axes_A + SAT_axes_B 
+
+    rogi_A = car_a["rogi"]
+    rogi_B = car_b["rogi"]
+
+    for axis in SAT_axes:
+        min_a, max_a = SAT_projection(axis, rogi_A)
+        min_b, max_b = SAT_projection(axis, rogi_B)
+
+        if max_a < min_b or max_b < min_a:
+            return False
+    return True
+
+
+#def get_line_eqation(p_1, p_2):
     
     # Wzor ogolny prostej: Ax + By + C = 0
 
-    A = p_2.y - p_1.y
-    B = p_2.x - p_1.x
-    C = -(A * p_1.x) - (B * p_1.y)
+    #A = p_2.y - p_1.y
+    #B = p_2.x - p_1.x
+    #C = -(A * p_1.x) - (B * p_1.y)
 
-    return A, B, C
+    #return A, B, C

@@ -2,6 +2,8 @@ from const import screen_height, screen_width, szerokosc_miejsca_parkingowego, d
 from obiekt_fiz import Pojazd
 import pygame, random
 
+vector = pygame.math.Vector2(0, 0)
+
 class Map:
     def __init__(self, typ_parkingu):
         self.szerokosc = screen_width
@@ -22,15 +24,43 @@ class Map:
 
         self.upper_parked_cars = []
         self.lower_parked_cars = []
+
+        self.start_up = vector
+        self.end_up = vector
+
+        self.start_down = vector
+        self.end_down = vector
+
+        self.start_left = vector
+        self.end_left = vector
+
+        self.start_right = vector
+        self.end_right = vector
         pass
     def generuj_mape(self):
         
         # Tworzenie granic mapy
 
-        self.przeszkody.append(pygame.Rect(0,0,self.szerokosc,1))                           #sufit
-        self.przeszkody.append(pygame.Rect(0,self.wysokosc,self.szerokosc,self.wysokosc))   #podłoga
-        self.przeszkody.append(pygame.Rect(0,0,1,self.wysokosc))                            #lewa ściana
-        self.przeszkody.append(pygame.Rect(self.szerokosc,0,1,self.wysokosc))               #prawa ściana
+        #gora
+        self.start_up = pygame.math.Vector2(0,0)
+        self.end_up = pygame.math.Vector2(self.szerokosc,0)
+
+        #dol
+        self.start_down = pygame.math.Vector2(0,self.wysokosc)
+        self.end_down = pygame.math.Vector2(self.szerokosc,self.wysokosc)
+
+        #lewa
+        self.start_left = pygame.math.Vector2(0,0)
+        self.end_left = pygame.math.Vector2(0,self.wysokosc)
+
+        #prawa
+        self.start_right = pygame.math.Vector2(self.szerokosc,0)
+        self.end_right = pygame.math.Vector2(self.szerokosc,self.wysokosc)
+
+        #self.przeszkody.append(pygame.Rect(0,0,self.szerokosc,1))                           #sufit
+        #self.przeszkody.append(pygame.Rect(0,self.wysokosc,self.szerokosc,self.wysokosc))   #podłoga
+        #self.przeszkody.append(pygame.Rect(0,0,1,self.wysokosc))                            #lewa ściana
+        #self.przeszkody.append(pygame.Rect(self.szerokosc,0,1,self.wysokosc))               #prawa ściana
 
         #tworzenie miejsc parkingowych i alei
 
@@ -58,6 +88,7 @@ class Map:
                     if is_occupied == 1:
 
                         car = Pojazd(spot_center_x - (axel_spacing/2), spot_center_y, 0, 0, False)
+                        car.define_vehicle()
                         self.upper_parked_cars.append(car)
                     elif is_occupied == 0:
                         pass
@@ -79,6 +110,13 @@ class Map:
                 #parking prostopadły
                 pass
     def rysuj_mape(self):
+        #generowanie granic mapy
+        
+        pygame.draw.line(pygame.display.get_surface(), "red", self.start_up, self.end_up, 20)
+        pygame.draw.line(pygame.display.get_surface(), "red", self.start_down, self.end_down, 20)
+        pygame.draw.line(pygame.display.get_surface(), "red", self.start_left, self.end_left, 20)
+        pygame.draw.line(pygame.display.get_surface(), "red", self.start_right, self.end_right, 20)
+
         for przeszkoda in self.przeszkody:
             pygame.draw.rect(pygame.display.get_surface(), "red", przeszkoda, 1)
         if self.typ_parkingu == 1:
