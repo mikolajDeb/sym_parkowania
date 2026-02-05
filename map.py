@@ -25,6 +25,9 @@ class Map:
         self.upper_parked_cars = []
         self.lower_parked_cars = []
 
+        self.upper_parked_cars_hitbox = []
+        self.lower_parked_cars_hitbox = []
+
         self.start_up = vector
         self.end_up = vector
 
@@ -88,8 +91,11 @@ class Map:
                     if is_occupied == 1:
 
                         car = Pojazd(spot_center_x - (axel_spacing/2), spot_center_y, 0, 0, False)
-                        car.define_vehicle()
+                        car_hitbox = car.define_vehicle()
+                        car.rogi = car_hitbox["rogi"]
+                        
                         self.upper_parked_cars.append(car)
+                        self.upper_parked_cars_hitbox.append(car_hitbox)
                     elif is_occupied == 0:
                         pass
                     
@@ -101,7 +107,11 @@ class Map:
                     if is_occupied == 1:
 
                         car = Pojazd(spot_center_x - (axel_spacing/2), spot_center_y, 0, 0, False)
+                        car_hitbox = car.define_vehicle()
+                        car.rogi = car_hitbox["rogi"]
+
                         self.lower_parked_cars.append(car)
+                        self.lower_parked_cars_hitbox.append(car_hitbox)
                     elif is_occupied == 0:
                         pass
                     

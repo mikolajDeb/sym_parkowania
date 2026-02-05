@@ -60,12 +60,4 @@ def col_between_2(car_a, car_b):
     return True
 
 
-#def get_line_eqation(p_1, p_2):
-    
-    # Wzor ogolny prostej: Ax + By + C = 0
 
-    #A = p_2.y - p_1.y
-    #B = p_2.x - p_1.x
-    #C = -(A * p_1.x) - (B * p_1.y)
-
-    #return A, B, C

@@ -2,6 +2,7 @@ from const import veh_lenght, veh_width, max_steering_angle, axel_spacing, masa_
 from stany import *
 from sensory import *
 
+
 import pygame
 
 test_time = 10
@@ -10,12 +11,12 @@ class Pojazd:
     def __init__(self, x, y, theta, v, can_move):
         # Parametry ruchu pojazdu wzg tyl osi
         
-        self.a = (sila_napedowa - sila_oporu)/masa_pojazdu
+        
         self.can_move = can_move
         self.x = x
         self.y = y
         self.theta = theta
-        self.v = v
+        
 
         # Parametry fizyczne pojazdu
 
@@ -52,29 +53,70 @@ class Pojazd:
         self.forward_vector = pygame.math.Vector2(1,0)
         self.right_vector = pygame.math.Vector2(0,1)
 
+        self.os_tylna = pygame.math.Vector2(0,0)
+        self.srodek_tylu = pygame.math.Vector2(0,0)
+        self.srodek_przodu = pygame.math.Vector2(0,0)
+        self.fl = pygame.math.Vector2(0,0)
+        self.fr = pygame.math.Vector2(0,0)
+        self.br = pygame.math.Vector2(0,0)
+        self.bl = pygame.math.Vector2(0,0)
+        self.rogi = [self.fl, self.fr, self.br, self.bl]
+
+
+        #Słowniki do aktywowania funkcji stanu
+        self.hitbox = {
+            "os tylna":self.os_tylna,
+            "sr przodu": self.srodek_przodu,
+            "sr tylu": self.srodek_tylu,
+            "rogi": self.rogi
+        }
+
+        self.state = {
+            "acc": self.a,
+            "vel": self.v,
+            "pos": self.pos
+        }
+
+        #Test case stuff
+
+        self.Brake_phase = None
         pass
     def step(self):
 
-        # Old Test case
-        # Will re write the lidar secuence couse it's probably wrong for a use case 
+        #Test case
         
-        #if self.v >= 10:
-            #self.v,  self.x, self.y = brake(self.a, self.v, self.x, self.y, self.theta)
-            #self.current_state = "braking"
-        #else:
-            #self.v, self.x, self.y = accelerate(self.a, self.v, self.x, self.y, self.theta)
-            #self.current_state = "accelerating"
+        self.lidar.cast_rays(self.pos.x,self.pos.y)
+        
+        
+        self.lidar.render_LIDAR()
+        
+        
+        if self.v.length() >= 50:
+           self.Brake_phase = True 
 
-        self.lidar.cast_rays()
-        self.lidar.render()
+        if self.Brake_phase == True:
+            if self.v.length() > 0:
+                self.state = brake(self.a, self.v, self.pos, self.forward_vector, self.can_move)
+            else:
+                self.state = idle(self.a, self.v, self.pos, self.forward_vector, self.can_move)
+        else:
+            self.state = accelerate(self.a, self.v, self.pos, self.forward_vector, False,    self.can_move)
+        
 
-        #self.render_instancja.x = self.x
-        #self.render_instancja.y = self.y
+        #aktualizacja ruchu poajzdu
+        self.a = self.state["a"]
+        self.v = self.state["v"]
+        self.pos = self.state["pos"]
+        
+        self.hitbox = self.define_vehicle()
 
-        self.lidar.s_x = self.x + (axel_spacing / 2)
-        self.lidar.s_y = self.y 
-
-        self.State_log.append(self.current_state)
+        #aktualizacja pozycji pojazdu
+        self.os_tylna = self.hitbox["os tylna"]
+        self.srodek_przodu = self.hitbox["sr przodu"]
+        self.srodek_tylu = self.hitbox["sr tylu"]
+        self.rogi = self.hitbox["rogi"]
+        
+        
         pass
     def log(self):
         pass

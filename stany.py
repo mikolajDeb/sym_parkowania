@@ -155,7 +155,7 @@ def brake(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.Vecto
         veh_acc = a
     
 
-        brake_acc = abs(2 * (0 - sila_oporu) / masa_pojazdu)
+        brake_acc = abs(1 * (0 - sila_oporu) / masa_pojazdu)
 
         if v.length() > 0:
             dir = v.normalize()
@@ -166,7 +166,7 @@ def brake(a: pygame.math.Vector2, v: pygame.math.Vector2, pos: pygame.math.Vecto
         stare_v = pygame.math.Vector2(v.x, v.y)
         v += veh_acc
 
-        if v.length() < 0.1 or v.dot(stare_v) < 0:
+        if v.length() < 1.1 or v.dot(stare_v) < 0:
             veh_acc = pygame.math.Vector2(0,0)
             v = pygame.math.Vector2(0,0)
 

@@ -1,6 +1,7 @@
 from const import screen_width, screen_height
 from map import Map
 from obiekt_fiz import Pojazd
+from sensory import *
 
 import pygame, sys
 
@@ -22,6 +23,7 @@ def main():
     start_x = 50
     start_y = (screen_height/2)
     Poj = Pojazd(start_x, start_y , 0, 0, True)
+    
 
     Mapa = Map(typ)
     Mapa.generuj_mape()
@@ -41,7 +43,9 @@ def main():
 
         
         Poj.step()
+        Poj.lidar.check_all_obstacle_intersections_LIDAR(Mapa.lower_parked_cars_hitbox, Mapa.upper_parked_cars_hitbox)
         Poj.render()
+        Poj.lidar.render_intersections()
 
         pygame.display.flip()
 

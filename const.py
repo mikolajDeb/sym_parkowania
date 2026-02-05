@@ -24,4 +24,4 @@ sila_oporu = 1500  #N
 
 #Parametry sensoryki
 
-lidar_range = 500 #px
+lidar_range = 1500 #px
