@@ -2,11 +2,12 @@ from const import screen_width, screen_height
 from map import Map
 from obiekt_fiz import Pojazd
 from sensory import *
+from parking_place import *
 
 import pygame, sys
 
 typ = 1
-
+place = []
 
 def main():
     print("Startuje symulator parkowania pojazdów.")
@@ -47,10 +48,18 @@ def main():
         Poj.render()
         Poj.lidar.render_intersections()
 
+        place = find_place(Poj.lidar.intersection_points, Poj)
+        parking_space_render(place)
+        
+
+        
+        
+
         pygame.display.flip()
 
         Time_Tick = Clock.tick(60)
         dt = Time_Tick / 1000
+    
 
 
 if __name__ == "__main__":

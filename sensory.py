@@ -19,8 +19,15 @@ class Lidar(Sensory):
         super().__init__(start_x, start_y)
 
         self.rays = []
+        #self.ray_plus_angle = []
 
-        self.num_of_rays = 144
+        #self.single_ray_plus_angle = {
+            #"ray": pygame.math.Vector2(),
+            #"angle": int('inf')
+        #} 
+        self.lidar_pos = pygame.math.Vector2(start_x,start_y)
+        
+        self.num_of_rays = 360
         self.range = lidar_range
 
         self.start_vector = pygame.math.Vector2(start_x + (axel_spacing/2), start_y)
@@ -64,6 +71,11 @@ class Lidar(Sensory):
 
         if self.angle >= 360:
             self.angle = 0
+
+        #self.single_ray_plus_angle["ray"] = self.final_lidar_vector
+        #self.single_ray_plus_angle["angle"] = self.angle
+
+        #self.ray_plus_angle.append(self.single_ray_plus_angle)
 
         self.rays.append(self.final_lidar_vector)
         #old implementation
