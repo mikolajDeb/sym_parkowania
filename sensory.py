@@ -164,7 +164,7 @@ class Lidar(Sensory):
                 if len(self.intersection_points) > 1000:
                     self.intersection_points.pop(0)
         
-        pass
+        return self.intersection_points
 
     def render_intersections(self):
         for point in self.intersection_points:

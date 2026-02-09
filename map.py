@@ -131,14 +131,14 @@ class Map:
             pygame.draw.rect(pygame.display.get_surface(), "red", przeszkoda, 1)
         if self.typ_parkingu == 1:
             for spot in self.upper_spot:
-                pygame.draw.rect(pygame.display.get_surface(), "white", spot, 1)
+                pygame.draw.rect(pygame.display.get_surface(), "white", spot, 2)
             
 
             for spot in self.lower_spot:
-                pygame.draw.rect(pygame.display.get_surface(), "white", spot, 1)
+                pygame.draw.rect(pygame.display.get_surface(), "white", spot, 2)
                 
 
-            pygame.draw.rect(pygame.display.get_surface(), "white", self.alley, 1)
+            pygame.draw.rect(pygame.display.get_surface(), "white", self.alley, 2)
 
             for car in self.upper_parked_cars:
                     car.render()

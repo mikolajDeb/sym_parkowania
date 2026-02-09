@@ -1,3 +1,5 @@
+#Metodda falling edge z ktorej zerzygnowalem
+
 from const import screen_height
 import pygame, math
 
@@ -82,7 +84,7 @@ def find_place(intersection_points: list, Car):
             dis_jump = sorted_lower_points[p].distance_to(sorted_lower_points[p-1])
 
             dist_to_sensor_curr = Car.lidar.lidar_pos.distance_to(sorted_lower_points[p])
-            dist_to_sensor_prev = Car.lidar.lidar_pos.distance_to(sorted_lower_points[p-1])
+            dist_to_sensor_prev = Car.lidar.lidar_pos.distance_to(sorted_lower_points[p-1]) 
 
             depth_jump = abs(dist_to_sensor_curr - dist_to_sensor_prev)
             #obliczenie dynamicznego progu 

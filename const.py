@@ -25,3 +25,7 @@ sila_oporu = 1500  #N
 #Parametry sensoryki
 
 lidar_range = 1500 #px
+
+#Occupancy grid
+
+grid_square_side_length = 25

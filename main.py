@@ -3,11 +3,12 @@ from map import Map
 from obiekt_fiz import Pojazd
 from sensory import *
 from parking_place import *
+from occupancy_grid import *
 
 import pygame, sys
 
 typ = 1
-place = []
+intersection_points = []
 
 def main():
     print("Startuje symulator parkowania pojazdów.")
@@ -28,6 +29,9 @@ def main():
 
     Mapa = Map(typ)
     Mapa.generuj_mape()
+
+    Grid = Occupancy_grid()
+    Grid.counstruct_grid()
     
     while True:
         for event in pygame.event.get():
@@ -43,18 +47,18 @@ def main():
         Mapa.rysuj_mape()   
 
         
+
         Poj.step()
-        Poj.lidar.check_all_obstacle_intersections_LIDAR(Mapa.lower_parked_cars_hitbox, Mapa.upper_parked_cars_hitbox)
+        intersection_points = Poj.lidar.check_all_obstacle_intersections_LIDAR(Mapa.lower_parked_cars_hitbox, Mapa.upper_parked_cars_hitbox)
         Poj.render()
         Poj.lidar.render_intersections()
 
-        place = find_place(Poj.lidar.intersection_points, Poj)
-        parking_space_render(place)
-        
+        #place = find_place(Poj.lidar.intersection_points, Poj)
+        #parking_space_render(place)
 
+        Grid.find_occupied_grid_squares(intersection_points)     
+        Grid.render_grid()
         
-        
-
         pygame.display.flip()
 
         Time_Tick = Clock.tick(60)
